@@ -1,19 +1,102 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome to I&K shop
+			{% endblock %}
+		</title>
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-</html>
+	</head>
+	<body>
+	{% set route_name = app.request.attributes.get('_route') %}
+		<div class="container-fluid">
+			<div class="col-md-12 m-auto">
+			<nav class="navbar navbar-expand-custom navbar-mainbg">
+				<a class="navbar-brand navbar-logo" href="#"> I & K Shops </a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<i class="fas fa-bars text-white"></i>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto">
+						<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+						<li {% if route_name == "index" %} class="nav-item active" {% else %} class="nav-item" {% endif %} >
+							<a class="nav-link" href="{{ path('index') }}"><i class="fas fa-home"></i>{% trans %} Home {% endtrans %}</a>
+						</li>
+						<li {% if route_name == "products" %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+							<a class="nav-link" href="{{ path('products') }}"><i class="fas fa-tags"></i>{% trans %} Products {% endtrans %}</a>
+						</li>
+
+						<li {% if route_name == "about_us" %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+							<a class="nav-link" href=""><i class="far fa-calendar-alt"></i> {% trans %}About us{% endtrans %}</a>
+						</li>
+						{%  if app.user == null %}
+						<li {% if route_name == "app_login" %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+							<a class="nav-link" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i>{% trans %}Login{% endtrans %}</a>
+						</li>
+						<li{% if route_name == "app_register" %} class="nav-item active" {% else %} class="nav-item" {% endif %}  >
+							<a class="nav-link" href="{{ path('app_register') }}"><i class="fas fa-sign-out-alt"></i>{% trans %}Register{% endtrans %}</a>
+						</li>
+						{% else %}
+							<li {% if route_name == "account" %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+								<a class="nav-link" href="{{ path('account') }}"><i class="fas fa-user"></i>{% trans %}My account{% endtrans %}</a>
+							</li>
+							<li {% if route_name == "app_logout" %} class="nav-item active" {% else %} class="nav-item" {% endif %}>
+								<a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-in-alt"></i>{% trans %}Logout{% endtrans %}</a>
+							</li>
+						{% endif %}
+
+					</ul>
+				</div>
+			</nav>
+			</div>
+			<div class="col-md-12 mt-5">
+			{% block body %}{% endblock %}
+			</div>
+
+		</div>
+	<script>
+		function test(){
+			let tabsNewAnim = $('#navbarSupportedContent');
+			let activeItemNewAnim = tabsNewAnim.find('.active');
+			let activeWidthNewAnimHeight = activeItemNewAnim.innerHeight();
+			let activeWidthNewAnimWidth = activeItemNewAnim.innerWidth();
+			let itemPosNewAnimTop = activeItemNewAnim.position();
+			let itemPosNewAnimLeft = activeItemNewAnim.position();
+			$(".hori-selector").css({
+				"top":itemPosNewAnimTop.top + "px",
+				"left":itemPosNewAnimLeft.left + "px",
+				"height": activeWidthNewAnimHeight + "px",
+				"width": activeWidthNewAnimWidth + "px"
+			});
+			$('#navbarSupportedContent').on("click","li",function(){
+				$('#navbarSupportedContent ul li').removeClass("active");
+				$(this).addClass('active');
+				let activeWidthNewAnimHeight = $(this).innerHeight();
+				let activeWidthNewAnimWidth = $(this).innerWidth();
+				let itemPosNewAnimTop = $(this).position();
+				let itemPosNewAnimLeft = $(this).position();
+				$(".hori-selector").css({
+					"top":itemPosNewAnimTop.top + "px",
+					"left":itemPosNewAnimLeft.left + "px",
+					"height": activeWidthNewAnimHeight + "px",
+					"width": activeWidthNewAnimWidth + "px"
+				});
+			});
+		}
+		$(document).ready(function(){
+			setTimeout(function(){ test(); });
+		});
+		$(window).on('resize', function(){
+			setTimeout(function(){ test(); }, 500);
+		});
+		$(".navbar-toggler").click(function(){
+			setTimeout(function(){ test(); });
+		});
+	</script>
+		</body>
+	</html>
