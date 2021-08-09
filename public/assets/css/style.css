@@ -9,11 +9,7 @@ i {
     margin-right: 10px;
 }
 /*----------multi-level-accordian-menu------------*/
-.container-fluid{
-    padding: 0 !important;
-    margin: 0 !important;
-    width: 100%;
-}
+
 .navbar-logo{
     padding: 15px;
     color: #fff;
@@ -163,3 +159,6 @@ i {
     }
 }
 
+.card {
+    margin: 2%;
+}

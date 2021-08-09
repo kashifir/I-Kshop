@@ -14,8 +14,8 @@
 	</head>
 	<body>
 	{% set route_name = app.request.attributes.get('_route') %}
-		<div class="container-fluid">
-			<div class="col-md-12 m-auto">
+
+
 			<nav class="navbar navbar-expand-custom navbar-mainbg">
 				<a class="navbar-brand navbar-logo" href="#"> I & K Shops </a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,12 +53,13 @@
 					</ul>
 				</div>
 			</nav>
-			</div>
-			<div class="col-md-12 mt-5">
-			{% block body %}{% endblock %}
-			</div>
 
-		</div>
+	<div class="text-dark p-5 ">
+			{% block body %}{% endblock %}
+	</div>
+
+
+
 	<script>
 		function test(){
 			let tabsNewAnim = $('#navbarSupportedContent');
